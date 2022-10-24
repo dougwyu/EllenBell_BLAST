@@ -1,0 +1,8 @@
+bioinformatics-skills
+getting-started
+directories-and-their-structure
+moving-around-foldersdirectories
+paths
+file-types
+some-useful-commands
+blast

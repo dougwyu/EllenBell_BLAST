@@ -1,0 +1,130 @@
+--- 
+title: "BIO-6013A Bioinformatics Skills"
+author: "Ellen Bell"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+always_allow_html: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# Bioinformatics skills 
+
+Here we will start to build a bioinformatics skill set, using the command line.
+
+## Getting started 
+
+Some Blurb on setting up an R studio cloud account - maybe take some bits from phil or BIO-4001A. Instructions on joining a project. 
+
+## Directories and their structure 
+
+Working with text based interfaces, where you are writing and running commands, means that we need to have some understanding of the underlying computer architecture. You need to have some appreciation for how files are organised within folders/directories and why its important to know which directory you are working from.
+
+Under __Files__ in the bottom right panel of your screen you will see a file with the ending .Rproj. This is an R project file which tells R where you are working in the server. It means that R will automatically treat your project location as the __working directory__. If you wish to access files in any of the listed __folders/directories__ you will need to tell R the __path__ that it needs to follow in order to access these files. We have just covered some key words so lets have a look at what some of them mean now.
+
+### Moving around folders/directories
+
+Look in the 'files' tab in the panel to the bottom right. You should have three folders stored there, called;
+
+* data
+* plots
+* scripts
+
+You can move around folders/directories in the command line, and its good be be comfortable doing this. Make sure you are in the `Terminal` tab in the panel to the bottom left and type; 
+
+```
+ls
+```
+
+Hit `Enter`
+
+The `ls` command is shorthand for list. The terminal should return something that looks like this;
+
+```
+/cloud/project$ ls
+data  plots  project.Rproj  scripts
+```
+
+So you can see your three directories. You can move between directories within the Terminal by using the `cd` command (`cd` is shorthand for change directory). Lets go and have a look at the files held within `data`. Use for following command;
+
+```
+cd data/
+```
+
+now use;
+
+```
+ls
+```
+
+The terminal should return something that looks like this;
+
+```
+/cloud/project/data$ ls
+databases  refseq  unknown_cory.fasta
+```
+
+So you can see that you can use commands like `ls` and `cd` to move around your directories. Note - if you want to move back up a directory level you can use the `cd ..` to do so. Use `cd, ls and cd ..` to explore the directories available to you in your project. 
+
+### Paths
+
+So hopefully you are getting comfortable moving between directories in the terminal. Here I will briefly introduce you to paths. Type in the following so that everyone is in the same location;
+
+```
+cd /cloud/project
+```
+
+If you want to enter some commands from this location that use the `mouse.1.protein.faa` file stored in the `refseq` directory you will need to provide a path for the location that file. These paths can either be absolute or relative. 
+
+Relative paths provide a pathway from your current directory (in this case `/cloud/project`) so here this might be;
+
+```
+data/refseq/mouse.1.protein.faa
+```
+
+However if you are already in the `databases` directory, this path wont work because your computer will be looking for directories it cant see. This is where absolute paths come in useful. 
+
+Absolute paths specify the location of a file or directory in relation to your root directory `/` (the top most directory in a hierarchy). So it doesn't matter which directory you are currently in, the pathway will work. In this case the absolute path would be;
+
+```
+/cloud/project/data/refseq/mouse.1.protein.faa
+```
+
+Have a go at using both absolute and relative paths with the `cd` command to move around your directories. 
+
+## File types 
+
+When we look at sequence data there are a number of file types that you will regularly come into contact with. The most common of these however are .fasta and .fastq files. Here we will have a look at some key features and differences of these file types. 
+
+Use your new found command line tools to move into the `refseq` directory. When you run `ls` you should see the following;
+
+```
+/cloud/project/data/refseq$ ls
+mouse.1.protein.faa  mouse.1.rna.fna  zebrafish.1.protein.faa  zebrafish.1.rna.fna
+```
+
+Use the `head` command to have a look at the first few lines of each of the four files stored in `refseq`. An example of the `head` commands useage is as follows;
+
+```
+head mouse.1.protein.faa 
+```
+What differences do you notice about the four files? 
+
+
+
+
+Intro to Fastq and Fasta file types
+
+## Some useful commands
+
+Grep and awk 
+
+## Blast
+

@@ -1,0 +1,50 @@
+--- 
+title: "BIO-6013A Bioinformatics Skills"
+author: "Ellen Bell"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  The HTML output format for this example is bookdown::gitbook,
+  set in the _output.yml file.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Bioinformatics skills 
+
+Here we will start to build a bioinformatics skill set, using the command line.
+
+## Getting started 
+
+Some Blurb on setting up an R studio cloud account - maybe take some bits from phil or BIO-4001A. Instructions on joining a project. 
+
+## Moving around directories
+
+Look in the 'files' tab in the pannel to the bottom right. You should have three folders stored there, called;
+
+* data
+* plots
+* scripts
+
+You can move around directories in the command line, and its good be be comfortable doing this. Make sure you are in the 'Terminal' tab in the panel to the bottom left and type 
+
+'''ls'''
+
+## File types 
+
+Intro to Fastq and Fasta file types
+
+## Some useful commands
+
+Grep and awk 
+
+## Blast
+
+
+<!--chapter:end:index.Rmd-->
+
