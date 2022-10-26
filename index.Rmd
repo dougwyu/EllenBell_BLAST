@@ -101,7 +101,46 @@ Have a go at using both absolute and relative paths with the `cd` command to mov
 
 ## File types 
 
-When we look at sequence data there are a number of file types that you will regularly come into contact with. The most common of these however are .fasta and .fastq files. Here we will have a look at some key features and differences of these file types. 
+When we look at sequence data there are a number of file types that you will regularly come into contact with. The most common of these however are .fastq and .fasta files. Here we will have a look at some key features and differences of these file types. 
+
+Fastq files are a used as a data storage file for the output from next generation sequencers, such as those used for Illumina sequencing. The structure of a .fastq file is very uniform, each sequence has four lines dedicated to it. 
+
+* Line 1 - begins with an '@' character and is followed by an identifier and optional description. For example it may contain informaiton about the sequencer, the flow cell, index number etc. 
+* Line 2 - is the raw sequence 
+* Line 3 - a '+' character and sometimes a repeat of line 1
+* Line 4 - computer readable information relating to the quality for the sequence in line 2. This must have the same number of characters as the sequence
+
+An example of three sequences from an Illumina sequencer in .fastq format is shown below;
+
+```
+@NB501793:9:H77L2BGX2:1:11101:26113:7113 1:N:0:ATCACGAT
+GCATGTCTCTAGTTCCGGAACCAAAATCTCCTCCACCCACTCTGCGTCCTGCTGACTATAGGAGATAAAGGCGTCATAGCAGAGGGTGGCGCCTCCTTGGTGCACCGCCGGCTTTCGCTTCGCCTTAAACCAGGCGACGGACATTTTCAGG
++
+AAAAAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEAEEEEEEEEEEEEEEAAEEEEEEEEEAAEE<AEEEEEEEEEEEEEEEEEEAEEEEEEE<EA
+@NB501793:9:H77L2BGX2:1:11101:24170:10019 1:N:0:ATCACGAT
+GCATGTCAACATCATTCTTGTTTTGTTAGAGCCACTACCTACATATCTTATCCCTTCCAAGTACTACCAGCTAAAGGCAATGATACATGC
++
+AAAAAEA/EEEE/EEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEAEAEAEEEAEEEEEEEEEEEEEEAEEE/EEEEEEAE/E/AEEAE
+@NB501793:9:H77L2BGX2:1:11101:7027:14110 1:N:0:ATCACGAT
+GCATGTGATGTTGTGTTTTTGTACTCTCCTCTCACTTTGTCCAAAGTGAGTGGTGTCATTATGAGTTGTATTTTGCTAACCACCAGAGACTAACACGAGGGCTGGACAACATCATTCTAGTTTTGTTAGAGCCACTACCTACATATC
++
+AAA/AEEEEEEEEEEEEEEEEAEAAEEEEAAEEEEEEE/EEEAEEEEA/EE6EEEEEEEEEEEE6EE/EAEEE/EEEAAEAEEE/EEEEEE6EEEAE/<EAEEEEEE/EEAEEAE<E//AE<</EAEA//<<<A6AE/EEEE/A/EA
+```
+
+Fasta files are a text based file format for representing either nucleotide or amino acid sequences. These can be produced from .fastq files. Each sequence in .fasta format comes with a header line which is marked by a '>' character prefix. Information following the '>' should contain a sequence identifier and optional description of the sequence.  
+
+An example of three sequences from an Illumina sequencer in .fasta format is shown below, you may notice that these are the same sequences as shown previoursly in the .fastq example;
+
+```
+>NB501793:9:H77L2BGX2:1:11101:26113:7113 1:N:0:ATCACGAT
+CTCTAGTTCCGGAACCAAAATCTCCTCCACCCACTCTGCGTCCTGCTGACTATAGGAGATAAAGGCGTCATAGCAGAGGGTGGCGCCTCCTTGGTGCACCGCCGGCTTTCGCTTCGCCTTAAACCAGGCGACGGACATTTTCAGG
+>NB501793:9:H77L2BGX2:1:11101:24170:10019 1:N:0:ATCACGAT
+CAACATCATTCTTGTTTTGTTAGAGCCACTACCTACATATCTTATCCCTTCCAAGTACTACCAGCTAAAGGCAATGATACATGC
+>NB501793:9:H77L2BGX2:1:11101:7027:14110 1:N:0:ATCACGAT
+GATGTTGTGTTTTTGTACTCTCCTCTCACTTTGTCCAAAGTGAGTGGTGTCATTATGAGTTGTATTTTGCTAACCACCAGAGACTAACACGAGGGCTGGACAACATCATTCTAGTTTTGTTAGAGCCACTACCTACATATC
+```
+
+Now, lets have a look at your data. The `/cloud/project/data/refseq` directory contains files downloaded from the NCBI Reference Sequence project. These files comprise a set of transcript and protein sequences for the mouse and zebrafish model systems and were downloaded from the [NCBI](https://ftp.ncbi.nlm.nih.gov/refseq/). 
 
 Use your new found command line tools to move into the `refseq` directory. When you run `ls` you should see the following;
 
@@ -110,21 +149,75 @@ Use your new found command line tools to move into the `refseq` directory. When 
 mouse.1.protein.faa  mouse.1.rna.fna  zebrafish.1.protein.faa  zebrafish.1.rna.fna
 ```
 
-Use the `head` command to have a look at the first few lines of each of the four files stored in `refseq`. An example of the `head` commands useage is as follows;
+Use the `head` command to have a look at the first few lines of each of the four files stored in `refseq`. An example of the `head` commands usage is as follows;
 
 ```
 head mouse.1.protein.faa 
 ```
-What differences do you notice about the four files? 
+What differences do you notice about the four files? Do you think these are examples of .fastq or .fasta files?
 
+You might have noticed that their are two file suffixes (or file extensions) across these four files __.faa__ and __.fna__. These file extensions can tell you quite a lot about the content of the file. Can you work out what these file extensions might be telling you?
 
+## Basic Local Alignment Search Tool (BLAST)
 
+The acronym BLAST stands for Basic Local Alignment Search Tool, it is a very versatile and useful program, frequently used in bioinformatic analysis. In essence it compares nucleotide or protein sequences to a database and uses statistics to calculate the significance of the similarities between hits. It has a range of uses; including assisting in the identification of sequences and assessing evolutionary relationships between sequences. There are different types of BLAST that work with nucleotide or amino acid input sequences. 
 
-Intro to Fastq and Fasta file types
+You have probably uploaded sequences to the NCBI website and used their BLAST tool from a web browser before, this can compare your query sequence against the entirety of GenBank. Here we will be looking at how to run BLAST from the command line against a local database. 
 
-## Some useful commands
+### Making a BLAST database
 
-Grep and awk 
+In order to run BLAST we will need to make some suitable BLAST databases. Initially we will be using sequences from our mouse refseq files as queries to blast against databases made from our zebrafish refseq files. So lets convert our refseq zebrafish files into blast databases. Run the following command in the terminal;
 
-## Blast
+```
+makeblastdb -in /cloud/project/data/refseq/zebrafish.1.rna.fna -dbtype nucl -out /cloud/project/data/databases/zebrafish.1.rna
+```
 
+Take a moment to break down this command. You are essentially calling a function `makeblastdb`, you have told it which files you want to input using `-in pathway/file` and told it where this file is located via the path. You have also given instructions on what type of database you wish to produce (i.e. a nucleotide database) using `-dbtype nucl` and given instructions on where you want this database to be stored using `-out pathway/file_prefix`. 
+
+Use the `cd` and `ls` commands to go to `/cloud/project/data/databases/`. Have a look at the new files stored there. There should be three and they should have `.nhr`, `.nin`, `.nsq` file extensions. 
+
+Now try and make a similar data base for the `zebrafish.1.protein.faa` refseq file. You will need to instruct `makeblastdb` to make a `prot` (protein) database instead of a `nucl` database. Check your results in `/cloud/project/data/databases/`. Once again there should be thre files and they should have `.phr`, `.pin` and `.psq` file extensions. 
+
+### Finding a query
+
+So hopefully you have a protein and nucleotide database prepared. Now we need to find a suitable query. We could use an entire mouse refseq file. But that would take a long time. Lets take a single entry from the mouse protein refseq file instead. To do this in the command line we can use `awk`, this is a scripting language used for the manipulation of data. In bioinformatics it is frequently used for filtering sequence files. For now, I would like you to use the `awk` command below, this will copy lines 5 and 6 of the `mouse.1.protein.faa` file and paste them in a new file called `mouse.1.protein.1.faa` in the `query` directory. 
+
+```
+awk 'NR==5 , NR==6'  mouse.1.protein.faa > /cloud/project/data/query/mouse.1.protein.1.faa
+```
+
+Use `head` to look at the contents of the `mouse.1.protein.1.faa` file in the `query` directory. Hopefully it should look something like this;
+
+```
+>YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]
+MFINRWLFSTNHKDIGTLYLLFGAWAGMVGTALSILIRAELGQPGALLGDDQIYNVIVTAHAFVMIFFMVMPMMIGGFGNWLVPLMIGAPDMAFPRMNNMSFWLLPPSFLLLLASSMVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGVSSILGAINFITTIINMKPPAMTQYQTPLFVWSVLITAVLLLLSLPVLAAGITMLLTDRNLNTTFFDPAGGGDPILYQHLFWFFGHPEVYILILPGFGIISHVVTYYSGKKEPFGYMGMVWAMMSIGFLGFIVWAHHMFTVGLDVDTRAYFTSATMIIAIPTGVKVFSWLATLHGGNIKWSPAMLWALGFIFLFTVGGLTGIVLSNSSLDIVLHDTYYVVAHFHYVLSMGAVFAIMAGFVHWFPLFSGFTLDDTWAKAHFAIMFVGVNMTFFPQHFLGLSGMPRRYSDYPDAYTTWNTVSSMGSFISLTAVLIMIFMIWEAFASKREVMSVSYASTNLEWLHGCPPPYHTFEEPTYVKVK
+```
+> Note that the refseq .fasta file has been formatted so that each entry has two lines, one for header, one for sequence. This means that we are able to simply pull out sequence entries based on line number. Odd numbered lines will be headers and even numbered lines will be sequences. 
+
+### BLASTp
+
+```
+blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt -outfmt 6
+```
+
+```
+YP_220552.1	NP_059333.1	88.132	514	61	0	1	514	1	514	0.0	877
+YP_220552.1	XP_021326074.1	31.818	66	32	2	427	482	16	78	6.7	29.3
+YP_220552.1	NP_001373511.1	31.818	66	32	2	427	482	48	110	7.5	29.6
+```
+
+```
+grep -nr "NP_059333.1" refseq/zebrafish.1.protein.faa > NP_059333.1_zebrafish.txt
+```
+
+```
+209:>NP_059333.1 cytochrome c oxidase subunit I (mitochondrion) [Danio rerio]
+
+```
+
+```
+orrigional
+>YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]
+```
+
+### BLASTn and BLASTx

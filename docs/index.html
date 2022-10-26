@@ -23,7 +23,7 @@
 <meta name="author" content="Ellen Bell" />
 
 
-<meta name="date" content="2022-10-24" />
+<meta name="date" content="2022-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -81,8 +81,13 @@
 <li class="chapter" data-level="1.2.2" data-path="index.html"><a href="#paths"><i class="fa fa-check"></i><b>1.2.2</b> Paths</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="#file-types"><i class="fa fa-check"></i><b>1.3</b> File types</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="#some-useful-commands"><i class="fa fa-check"></i><b>1.4</b> Some useful commands</a></li>
-<li class="chapter" data-level="1.5" data-path="index.html"><a href="#blast"><i class="fa fa-check"></i><b>1.5</b> Blast</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="#basic-local-alignment-search-tool-blast"><i class="fa fa-check"></i><b>1.4</b> Basic Local Alignment Search Tool (BLAST)</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="#making-a-blast-database"><i class="fa fa-check"></i><b>1.4.1</b> Making a BLAST database</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="#finding-a-query"><i class="fa fa-check"></i><b>1.4.2</b> Finding a query</a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="#blastp"><i class="fa fa-check"></i><b>1.4.3</b> BLASTp</a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="#blastn-and-blastx"><i class="fa fa-check"></i><b>1.4.4</b> BLASTn and BLASTx</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -107,7 +112,7 @@
 <div id="header">
 <h1 class="title">BIO-6013A Bioinformatics Skills</h1>
 <p class="author"><em>Ellen Bell</em></p>
-<p class="date"><em>2022-10-24</em></p>
+<p class="date"><em>2022-10-26</em></p>
 </div>
 <div id="bioinformatics-skills" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Bioinformatics skills<a href="#bioinformatics-skills" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -158,22 +163,83 @@ databases  refseq  unknown_cory.fasta</code></pre>
 </div>
 <div id="file-types" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> File types<a href="#file-types" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>When we look at sequence data there are a number of file types that you will regularly come into contact with. The most common of these however are .fasta and .fastq files. Here we will have a look at some key features and differences of these file types.</p>
+<p>When we look at sequence data there are a number of file types that you will regularly come into contact with. The most common of these however are .fastq and .fasta files. Here we will have a look at some key features and differences of these file types.</p>
+<p>Fastq files are a used as a data storage file for the output from next generation sequencers, such as those used for Illumina sequencing. The structure of a .fastq file is very uniform, each sequence has four lines dedicated to it.</p>
+<ul>
+<li>Line 1 - begins with an ‘@’ character and is followed by an identifier and optional description. For example it may contain informaiton about the sequencer, the flow cell, index number etc.</li>
+<li>Line 2 - is the raw sequence</li>
+<li>Line 3 - a ‘+’ character and sometimes a repeat of line 1</li>
+<li>Line 4 - computer readable information relating to the quality for the sequence in line 2. This must have the same number of characters as the sequence</li>
+</ul>
+<p>An example of three sequences from an Illumina sequencer in .fastq format is shown below;</p>
+<pre><code>@NB501793:9:H77L2BGX2:1:11101:26113:7113 1:N:0:ATCACGAT
+GCATGTCTCTAGTTCCGGAACCAAAATCTCCTCCACCCACTCTGCGTCCTGCTGACTATAGGAGATAAAGGCGTCATAGCAGAGGGTGGCGCCTCCTTGGTGCACCGCCGGCTTTCGCTTCGCCTTAAACCAGGCGACGGACATTTTCAGG
++
+AAAAAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEAEEEEEEEEEEEEEEAAEEEEEEEEEAAEE&lt;AEEEEEEEEEEEEEEEEEEAEEEEEEE&lt;EA
+@NB501793:9:H77L2BGX2:1:11101:24170:10019 1:N:0:ATCACGAT
+GCATGTCAACATCATTCTTGTTTTGTTAGAGCCACTACCTACATATCTTATCCCTTCCAAGTACTACCAGCTAAAGGCAATGATACATGC
++
+AAAAAEA/EEEE/EEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEAEAEAEEEAEEEEEEEEEEEEEEAEEE/EEEEEEAE/E/AEEAE
+@NB501793:9:H77L2BGX2:1:11101:7027:14110 1:N:0:ATCACGAT
+GCATGTGATGTTGTGTTTTTGTACTCTCCTCTCACTTTGTCCAAAGTGAGTGGTGTCATTATGAGTTGTATTTTGCTAACCACCAGAGACTAACACGAGGGCTGGACAACATCATTCTAGTTTTGTTAGAGCCACTACCTACATATC
++
+AAA/AEEEEEEEEEEEEEEEEAEAAEEEEAAEEEEEEE/EEEAEEEEA/EE6EEEEEEEEEEEE6EE/EAEEE/EEEAAEAEEE/EEEEEE6EEEAE/&lt;EAEEEEEE/EEAEEAE&lt;E//AE&lt;&lt;/EAEA//&lt;&lt;&lt;A6AE/EEEE/A/EA</code></pre>
+<p>Fasta files are a text based file format for representing either nucleotide or amino acid sequences. These can be produced from .fastq files. Each sequence in .fasta format comes with a header line which is marked by a ‘&gt;’ character prefix. Information following the ‘&gt;’ should contain a sequence identifier and optional description of the sequence.</p>
+<p>An example of three sequences from an Illumina sequencer in .fasta format is shown below, you may notice that these are the same sequences as shown previoursly in the .fastq example;</p>
+<pre><code>&gt;NB501793:9:H77L2BGX2:1:11101:26113:7113 1:N:0:ATCACGAT
+CTCTAGTTCCGGAACCAAAATCTCCTCCACCCACTCTGCGTCCTGCTGACTATAGGAGATAAAGGCGTCATAGCAGAGGGTGGCGCCTCCTTGGTGCACCGCCGGCTTTCGCTTCGCCTTAAACCAGGCGACGGACATTTTCAGG
+&gt;NB501793:9:H77L2BGX2:1:11101:24170:10019 1:N:0:ATCACGAT
+CAACATCATTCTTGTTTTGTTAGAGCCACTACCTACATATCTTATCCCTTCCAAGTACTACCAGCTAAAGGCAATGATACATGC
+&gt;NB501793:9:H77L2BGX2:1:11101:7027:14110 1:N:0:ATCACGAT
+GATGTTGTGTTTTTGTACTCTCCTCTCACTTTGTCCAAAGTGAGTGGTGTCATTATGAGTTGTATTTTGCTAACCACCAGAGACTAACACGAGGGCTGGACAACATCATTCTAGTTTTGTTAGAGCCACTACCTACATATC</code></pre>
+<p>Now, lets have a look at your data. The <code>/cloud/project/data/refseq</code> directory contains files downloaded from the NCBI Reference Sequence project. These files comprise a set of transcript and protein sequences for the mouse and zebrafish model systems and were downloaded from the <a href="https://ftp.ncbi.nlm.nih.gov/refseq/">NCBI</a>.</p>
 <p>Use your new found command line tools to move into the <code>refseq</code> directory. When you run <code>ls</code> you should see the following;</p>
 <pre><code>/cloud/project/data/refseq$ ls
 mouse.1.protein.faa  mouse.1.rna.fna  zebrafish.1.protein.faa  zebrafish.1.rna.fna</code></pre>
-<p>Use the <code>head</code> command to have a look at the first few lines of each of the four files stored in <code>refseq</code>. An example of the <code>head</code> commands useage is as follows;</p>
+<p>Use the <code>head</code> command to have a look at the first few lines of each of the four files stored in <code>refseq</code>. An example of the <code>head</code> commands usage is as follows;</p>
 <pre><code>head mouse.1.protein.faa </code></pre>
-<p>What differences do you notice about the four files?</p>
-<p>Intro to Fastq and Fasta file types</p>
+<p>What differences do you notice about the four files? Do you think these are examples of .fastq or .fasta files?</p>
+<p>You might have noticed that their are two file suffixes (or file extensions) across these four files <strong>.faa</strong> and <strong>.fna</strong>. These file extensions can tell you quite a lot about the content of the file. Can you work out what these file extensions might be telling you?</p>
 </div>
-<div id="some-useful-commands" class="section level2 hasAnchor" number="1.4">
-<h2><span class="header-section-number">1.4</span> Some useful commands<a href="#some-useful-commands" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Grep and awk</p>
+<div id="basic-local-alignment-search-tool-blast" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Basic Local Alignment Search Tool (BLAST)<a href="#basic-local-alignment-search-tool-blast" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The acronym BLAST stands for Basic Local Alignment Search Tool, it is a very versatile and useful program, frequently used in bioinformatic analysis. In essence it compares nucleotide or protein sequences to a database and uses statistics to calculate the significance of the similarities between hits. It has a range of uses; including assisting in the identification of sequences and assessing evolutionary relationships between sequences. There are different types of BLAST that work with nucleotide or amino acid input sequences.</p>
+<p>You have probably uploaded sequences to the NCBI website and used their BLAST tool from a web browser before, this can compare your query sequence against the entirety of GenBank. Here we will be looking at how to run BLAST from the command line against a local database.</p>
+<div id="making-a-blast-database" class="section level3 hasAnchor" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Making a BLAST database<a href="#making-a-blast-database" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In order to run BLAST we will need to make some suitable BLAST databases. Initially we will be using sequences from our mouse refseq files as queries to blast against databases made from our zebrafish refseq files. So lets convert our refseq zebrafish files into blast databases. Run the following command in the terminal;</p>
+<pre><code>makeblastdb -in /cloud/project/data/refseq/zebrafish.1.rna.fna -dbtype nucl -out /cloud/project/data/databases/zebrafish.1.rna</code></pre>
+<p>Take a moment to break down this command. You are essentially calling a function <code>makeblastdb</code>, you have told it which files you want to input using <code>-in pathway/file</code> and told it where this file is located via the path. You have also given instructions on what type of database you wish to produce (i.e. a nucleotide database) using <code>-dbtype nucl</code> and given instructions on where you want this database to be stored using <code>-out pathway/file_prefix</code>.</p>
+<p>Use the <code>cd</code> and <code>ls</code> commands to go to <code>/cloud/project/data/databases/</code>. Have a look at the new files stored there. There should be three and they should have <code>.nhr</code>, <code>.nin</code>, <code>.nsq</code> file extensions.</p>
+<p>Now try and make a similar data base for the <code>zebrafish.1.protein.faa</code> refseq file. You will need to instruct <code>makeblastdb</code> to make a <code>prot</code> (protein) database instead of a <code>nucl</code> database. Check your results in <code>/cloud/project/data/databases/</code>. Once again there should be thre files and they should have <code>.phr</code>, <code>.pin</code> and <code>.psq</code> file extensions.</p>
 </div>
-<div id="blast" class="section level2 hasAnchor" number="1.5">
-<h2><span class="header-section-number">1.5</span> Blast<a href="#blast" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="finding-a-query" class="section level3 hasAnchor" number="1.4.2">
+<h3><span class="header-section-number">1.4.2</span> Finding a query<a href="#finding-a-query" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So hopefully you have a protein and nucleotide database prepared. Now we need to find a suitable query. We could use an entire mouse refseq file. But that would take a long time. Lets take a single entry from the mouse protein refseq file instead. To do this in the command line we can use <code>awk</code>, this is a scripting language used for the manipulation of data. In bioinformatics it is frequently used for filtering sequence files. For now, I would like you to use the <code>awk</code> command below, this will copy lines 5 and 6 of the <code>mouse.1.protein.faa</code> file and paste them in a new file called <code>mouse.1.protein.1.faa</code> in the <code>query</code> directory.</p>
+<pre><code>awk &#39;NR==5 , NR==6&#39;  mouse.1.protein.faa &gt; /cloud/project/data/query/mouse.1.protein.1.faa</code></pre>
+<p>Use <code>head</code> to look at the contents of the <code>mouse.1.protein.1.faa</code> file in the <code>query</code> directory. Hopefully it should look something like this;</p>
+<pre><code>&gt;YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]
+MFINRWLFSTNHKDIGTLYLLFGAWAGMVGTALSILIRAELGQPGALLGDDQIYNVIVTAHAFVMIFFMVMPMMIGGFGNWLVPLMIGAPDMAFPRMNNMSFWLLPPSFLLLLASSMVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGVSSILGAINFITTIINMKPPAMTQYQTPLFVWSVLITAVLLLLSLPVLAAGITMLLTDRNLNTTFFDPAGGGDPILYQHLFWFFGHPEVYILILPGFGIISHVVTYYSGKKEPFGYMGMVWAMMSIGFLGFIVWAHHMFTVGLDVDTRAYFTSATMIIAIPTGVKVFSWLATLHGGNIKWSPAMLWALGFIFLFTVGGLTGIVLSNSSLDIVLHDTYYVVAHFHYVLSMGAVFAIMAGFVHWFPLFSGFTLDDTWAKAHFAIMFVGVNMTFFPQHFLGLSGMPRRYSDYPDAYTTWNTVSSMGSFISLTAVLIMIFMIWEAFASKREVMSVSYASTNLEWLHGCPPPYHTFEEPTYVKVK</code></pre>
+<blockquote>
+<p>Note that the refseq .fasta file has been formatted so that each entry has two lines, one for header, one for sequence. This means that we are able to simply pull out sequence entries based on line number. Odd numbered lines will be headers and even numbered lines will be sequences.</p>
+</blockquote>
+</div>
+<div id="blastp" class="section level3 hasAnchor" number="1.4.3">
+<h3><span class="header-section-number">1.4.3</span> BLASTp<a href="#blastp" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<pre><code>blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt -outfmt 6</code></pre>
+<pre><code>YP_220552.1 NP_059333.1 88.132  514 61  0   1   514 1   514 0.0 877
+YP_220552.1 XP_021326074.1  31.818  66  32  2   427 482 16  78  6.7 29.3
+YP_220552.1 NP_001373511.1  31.818  66  32  2   427 482 48  110 7.5 29.6</code></pre>
+<pre><code>grep -nr &quot;NP_059333.1&quot; refseq/zebrafish.1.protein.faa &gt; NP_059333.1_zebrafish.txt</code></pre>
+<pre><code>209:&gt;NP_059333.1 cytochrome c oxidase subunit I (mitochondrion) [Danio rerio]
+</code></pre>
+<pre><code>orrigional
+&gt;YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]</code></pre>
+</div>
+<div id="blastn-and-blastx" class="section level3 hasAnchor" number="1.4.4">
+<h3><span class="header-section-number">1.4.4</span> BLASTn and BLASTx<a href="#blastn-and-blastx" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 
+</div>
 </div>
 </div>
             </section>
