@@ -21,7 +21,25 @@ Here we will start to build a bioinformatics skill set, using the command line.
 
 ## Getting started 
 
-Some Blurb on setting up an R studio cloud account - maybe take some bits from phil or BIO-4001A. Instructions on joining a project. 
+These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account [here](https://rstudio.cloud/) and join the workspace `WORKSPACE NAME` [here](link to workspace). Once you have signed up you will see that you ahve two spaces;
+
+* Your Workspace
+* NAME FOR THE BIOINFORMATICS WORKSHOPS
+
+Make sure you are in the class workspace. 
+
+Once you are in the class workspace it should look something like this;
+
+PRINT SCREEN
+
+Lets take a moment to go over some terminology. 
+
+* __Unix__ - An operating system analogous with Windows.
+* __Shell__ - This is the interface we use to talk to the computer. If we are able to use the mouse to point and click we are using a Graphical User Interface (GUI). If we are only using text we are using a Command Line Interface (CLI). We will be using a CLI in these workshops.
+* __Command-line and/or Terminal__ - A text based environment for typing commands directly into a computers operating system
+* __bash__ - a commonly used programming language used in Unix command-line environments
+
+Make sure that the the tab in the left panel is set to __Terminal__ and NOT Console. You will be running commands in the Terminal. 
 
 ## Directories and their structure 
 
