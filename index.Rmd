@@ -214,28 +214,58 @@ MFINRWLFSTNHKDIGTLYLLFGAWAGMVGTALSILIRAELGQPGALLGDDQIYNVIVTAHAFVMIFFMVMPMMIGGFGN
 
 ### BLASTp
 
-```
-blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt -outfmt 6
-```
+Now that we have prepared a query and database we can start to run some BLASTs. We have our query is from the protein refseq files, so we will run a BLASTp against the protein zebrafish database. Try running the following command;
 
 ```
+blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt
+```
+
+Take a look at the default output from this BLAST search, use:
+
+```
+less /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt 
+```
+
+Type `Enter` to scroll through the file and `q` when you're ready to quit. You will see that this defaut output contains a lot of information, including information relating to significant database hits, significance scores and alignments. We only have three hits here, so its easy enough to process in this format, but sometimes you may have much larger outputs, in this case a tabular format is much more desirable. Try running the following command;
+
+```
+blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.2.tsv -outfmt 6
+```
+Use `less` to have a look at this new presentation of information. This is a tabular format, which is much easier to process quickly especially when you are looking at large data sets. I have pasted the output you should be looking at below with the column headers added. You can read all about [output format 6 here](https://www.metagenomics.wiki/tools/blast/blastn-output-format-6).
+
+```
+qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore
 YP_220552.1	NP_059333.1	88.132	514	61	0	1	514	1	514	0.0	877
 YP_220552.1	XP_021326074.1	31.818	66	32	2	427	482	16	78	6.7	29.3
 YP_220552.1	NP_001373511.1	31.818	66	32	2	427	482	48	110	7.5	29.6
 ```
+The problem with output format 6 is that you cant easily see the sequence description for the best hit, this could be really useful. But you do have a sequence identifier. You could rerun BLAST with the default output. But that could be extremely time consuming with large data sets. A better solution might be to search and extract the relavent information from the original refseq file. For this we can use grep. Grep is an essential unix command and can be extremely useful for quick file searching. Try running the following command;
 
 ```
-grep -nr "NP_059333.1" refseq/zebrafish.1.protein.faa > NP_059333.1_zebrafish.txt
+grep -n "NP_059333.1" /cloud/project/data/refseq/zebrafish.1.protein.faa > /cloud/project/data/NP_059333.1_zebrafish.txt
 ```
 
-```
-209:>NP_059333.1 cytochrome c oxidase subunit I (mitochondrion) [Danio rerio]
+Here we are asking grep to look for lines containing the sequence identifier for the top hit in our BLASTp search, i.e. `"NP_059333.1"`, in our refseq zebrafish protein fasta file. Once found it `grep` will then copy and paste matching lines into a new text file within the `data` directory. The `-n` flag tells `grep` to also report the line number. 
 
-```
-
-```
-orrigional
->YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]
-```
+Navigate to this newly made text file and use either `less` or `head` to view it. Compare the header information from our query and the top hit from our blast database. Do the results make sense? 
 
 ### BLASTn and BLASTx
+
+Try repeating the process with a new query. Use `awk` to extract lines 15 and 16 from the mouse nucleotide refseq files. Then use`blastn` to BLAST your new query against the zebrafish nucleotide database and create a new output file in output format 6 and use `grep` to extract the top hit from the zebrafish rna refseq file.
+
+Now you are confident with BLASTp and BLASTn we can start to have a look at BLASTx. Blastx is a great way to increase the power of your search, especially if you have an unknown sequence and are trying to work out which gene family it may belong to or if you are trying to identify protein coding genes. It takes a nucleotide query and translates the sequence using all six possible reading frames (so for all three possible codons and for both forward and reverse complement) and blasts the results against a protein database.
+
+You have been given an unknown nucleotide sequence from a Corydoras catfish species, `/cloud/project/data/query/unknown_cory.fasta`. Use the `blastx` and `grep` commands to try to work out what gene it most closely matches in zebrafish.
+
+## Before you leave
+
+Today we have been building the beginnings of a bioinformatics toolkit. We have taken a look at .fastq and .fasta files and have started developing tips and tricks for working in the command line and using commonly used commands, packages and languages, including;
+
+* Bash
+* Awk
+* Grep
+* Blast
+
+One last thing, please to logout of RStudio Cloud before you leave. 
+
+
