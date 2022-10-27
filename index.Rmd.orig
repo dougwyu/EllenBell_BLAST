@@ -65,7 +65,7 @@ You can move around folders/directories in the command line, and its good be be 
 ls
 ```
 
-Hit __Enter__
+Hit `Enter`
 
 The `ls` command is shorthand for list. The terminal should return something that looks like this;
 
@@ -270,8 +270,11 @@ Today we have been building the beginnings of a bioinformatics toolkit. We have 
 * Grep
 * Blast
 
+<<<<<<< HEAD
 To continue developing these skills there are some really awesome resources available with Astro Bio Mike at [Happy Belly Bioinformatics](https://astrobiomike.github.io/)
 
+=======
+>>>>>>> b5b4d6e34127421aba70978579148562fa8a903a
 One last thing, please to logout of RStudio Cloud before you leave. 
 
 
