@@ -1,4 +1,3 @@
-fig:unnamed-chunk-1
 bioinformatics-skills
 getting-started
 directories-and-their-structure
