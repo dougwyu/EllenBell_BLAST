@@ -1,0 +1,12 @@
+bioinformatics-skills
+getting-started
+directories-and-their-structure
+moving-around-foldersdirectories
+paths
+file-types
+basic-local-alignment-search-tool-blast
+making-a-blast-database
+finding-a-query
+blastp
+blastn-and-blastx
+before-you-leave
