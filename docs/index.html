@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>BIO-6013A Bioinformatics Skills</title>
   <meta name="description" content="BIO-6013A Bioinformatics Skills" />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="BIO-6013A Bioinformatics Skills" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Ellen Bell" />
 
 
-<meta name="date" content="2022-10-26" />
+<meta name="date" content="2022-10-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -88,6 +88,7 @@
 <li class="chapter" data-level="1.4.3" data-path="index.html"><a href="#blastp"><i class="fa fa-check"></i><b>1.4.3</b> BLASTp</a></li>
 <li class="chapter" data-level="1.4.4" data-path="index.html"><a href="#blastn-and-blastx"><i class="fa fa-check"></i><b>1.4.4</b> BLASTn and BLASTx</a></li>
 </ul></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="#before-you-leave"><i class="fa fa-check"></i><b>1.5</b> Before you leave</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -112,21 +113,27 @@
 <div id="header">
 <h1 class="title">BIO-6013A Bioinformatics Skills</h1>
 <p class="author"><em>Ellen Bell</em></p>
-<p class="date"><em>2022-10-26</em></p>
+<p class="date"><em>2022-10-27</em></p>
 </div>
 <div id="bioinformatics-skills" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Bioinformatics skills<a href="#bioinformatics-skills" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Here we will start to build a bioinformatics skill set, using the command line.</p>
 <div id="getting-started" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Getting started<a href="#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account <a href="https://rstudio.cloud/">here</a> and join the workspace <code>WORKSPACE NAME</code> <a href="link%20to%20workspace">here</a>. Once you have signed up you will see that you ahve two spaces;</p>
+<p>These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account <a href="https://rstudio.cloud/">here</a> and join the workspace <code>BIO 6013A</code> <a href="link%20to%20workspace">here</a>. Once you have signed up you will see that you ahve two spaces;</p>
 <ul>
 <li>Your Workspace</li>
-<li>NAME FOR THE BIOINFORMATICS WORKSHOPS</li>
+<li>BIO 6013A</li>
 </ul>
 <p>Make sure you are in the class workspace.</p>
-<p>Once you are in the class workspace it should look something like this;</p>
-<p>PRINT SCREEN</p>
+<p>Open the project marked as <strong>blast_workshop</strong></p>
+<p>Once you are in the workshop it should look something like this;</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-1"></span>
+<img src="figures/R_studio_project.png" alt="Screen for when you first login to RStudio Cloud" width="90%" />
+<p class="caption">
+Figure 1.1: Your workspace in RStudio Cloud
+</p>
+</div>
 <p>Lets take a moment to go over some terminology.</p>
 <ul>
 <li><strong>Unix</strong> - An operating system analogous with Windows.</li>
@@ -241,20 +248,41 @@ MFINRWLFSTNHKDIGTLYLLFGAWAGMVGTALSILIRAELGQPGALLGDDQIYNVIVTAHAFVMIFFMVMPMMIGGFGN
 </div>
 <div id="blastp" class="section level3 hasAnchor" number="1.4.3">
 <h3><span class="header-section-number">1.4.3</span> BLASTp<a href="#blastp" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<pre><code>blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt -outfmt 6</code></pre>
-<pre><code>YP_220552.1 NP_059333.1 88.132  514 61  0   1   514 1   514 0.0 877
+<p>Now that we have prepared a query and database we can start to run some BLASTs. We have our query is from the protein refseq files, so we will run a BLASTp against the protein zebrafish database. Try running the following command;</p>
+<pre><code>blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt</code></pre>
+<p>Take a look at the default output from this BLAST search, use:</p>
+<pre><code>less /cloud/project/data/blast/mouse.1.protein.x.zebrafish.txt </code></pre>
+<p>Type <code>Enter</code> to scroll through the file and <code>q</code> when you’re ready to quit. You will see that this defaut output contains a lot of information, including information relating to significant database hits, significance scores and alignments. We only have three hits here, so its easy enough to process in this format, but sometimes you may have much larger outputs, in this case a tabular format is much more desirable. Try running the following command;</p>
+<pre><code>blastp -query /cloud/project/data/query/mouse.1.protein.1.faa -db /cloud/project/data/databases/zebrafish.1.protein -out /cloud/project/data/blast/mouse.1.protein.x.zebrafish.2.tsv -outfmt 6</code></pre>
+<p>Use <code>less</code> to have a look at this new presentation of information. This is a tabular format, which is much easier to process quickly especially when you are looking at large data sets. I have pasted the output you should be looking at below with the column headers added. You can read all about <a href="https://www.metagenomics.wiki/tools/blast/blastn-output-format-6">output format 6 here</a>.</p>
+<pre><code>qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore
+YP_220552.1 NP_059333.1 88.132  514 61  0   1   514 1   514 0.0 877
 YP_220552.1 XP_021326074.1  31.818  66  32  2   427 482 16  78  6.7 29.3
 YP_220552.1 NP_001373511.1  31.818  66  32  2   427 482 48  110 7.5 29.6</code></pre>
-<pre><code>grep -nr &quot;NP_059333.1&quot; refseq/zebrafish.1.protein.faa &gt; NP_059333.1_zebrafish.txt</code></pre>
-<pre><code>209:&gt;NP_059333.1 cytochrome c oxidase subunit I (mitochondrion) [Danio rerio]
-</code></pre>
-<pre><code>orrigional
-&gt;YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]</code></pre>
+<p>The problem with output format 6 is that you cant easily see the sequence description for the best hit, this could be really useful. But you do have a sequence identifier. You could rerun BLAST with the default output. But that could be extremely time consuming with large data sets. A better solution might be to search and extract the relavent information from the original refseq file. For this we can use grep. Grep is an essential unix command and can be extremely useful for quick file searching. Try running the following command;</p>
+<pre><code>grep -n &quot;NP_059333.1&quot; /cloud/project/data/refseq/zebrafish.1.protein.faa &gt; /cloud/project/data/NP_059333.1_zebrafish.txt</code></pre>
+<p>Here we are asking grep to look for lines containing the sequence identifier for the top hit in our BLASTp search, i.e. <code>"NP_059333.1"</code>, in our refseq zebrafish protein fasta file. Once found it <code>grep</code> will then copy and paste matching lines into a new text file within the <code>data</code> directory. The <code>-n</code> flag tells <code>grep</code> to also report the line number.</p>
+<p>Navigate to this newly made text file and use either <code>less</code> or <code>head</code> to view it. Compare the header information from our query and the top hit from our blast database. Do the results make sense?</p>
 </div>
 <div id="blastn-and-blastx" class="section level3 hasAnchor" number="1.4.4">
 <h3><span class="header-section-number">1.4.4</span> BLASTn and BLASTx<a href="#blastn-and-blastx" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-
+<p>Try repeating the process with a new query. Use <code>awk</code> to extract lines 15 and 16 from the mouse nucleotide refseq files. Then use<code>blastn</code> to BLAST your new query against the zebrafish nucleotide database and create a new output file in output format 6 and use <code>grep</code> to extract the top hit from the zebrafish rna refseq file.</p>
+<p>Now you are confident with BLASTp and BLASTn we can start to have a look at BLASTx. Blastx is a great way to increase the power of your search, especially if you have an unknown sequence and are trying to work out which gene family it may belong to or if you are trying to identify protein coding genes. It takes a nucleotide query and translates the sequence using all six possible reading frames (so for all three possible codons and for both forward and reverse complement) and blasts the results against a protein database.</p>
+<p>You have been given an unknown nucleotide sequence from a Corydoras catfish species, <code>/cloud/project/data/query/unknown_cory.fasta</code>. Use the <code>blastx</code> and <code>grep</code> commands to try to work out what gene it most closely matches in zebrafish.</p>
 </div>
+</div>
+<div id="before-you-leave" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Before you leave<a href="#before-you-leave" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Today we have been building the beginnings of a bioinformatics toolkit. We have taken a look at .fastq and .fasta files and have started developing tips and tricks for working in the command line and using commonly used commands, packages and languages, including;</p>
+<ul>
+<li>Bash</li>
+<li>Awk</li>
+<li>Grep</li>
+<li>Blast</li>
+</ul>
+<p>To continue developing these skills there are some really awesome resources available with Astro Bio Mike at <a href="https://astrobiomike.github.io/">Happy Belly Bioinformatics</a></p>
+<p>One last thing, please to logout of RStudio Cloud before you leave.</p>
+
 </div>
 </div>
             </section>

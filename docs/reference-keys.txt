@@ -1,3 +1,4 @@
+fig:unnamed-chunk-1
 bioinformatics-skills
 getting-started
 directories-and-their-structure
@@ -9,3 +10,4 @@ making-a-blast-database
 finding-a-query
 blastp
 blastn-and-blastx
+before-you-leave
