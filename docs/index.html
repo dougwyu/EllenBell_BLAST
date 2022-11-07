@@ -23,7 +23,7 @@
 <meta name="author" content="Ellen Bell" />
 
 
-<meta name="date" content="2022-10-27" />
+<meta name="date" content="2022-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -88,7 +88,8 @@
 <li class="chapter" data-level="1.4.3" data-path="index.html"><a href="#blastp"><i class="fa fa-check"></i><b>1.4.3</b> BLASTp</a></li>
 <li class="chapter" data-level="1.4.4" data-path="index.html"><a href="#blastn-and-blastx"><i class="fa fa-check"></i><b>1.4.4</b> BLASTn and BLASTx</a></li>
 </ul></li>
-<li class="chapter" data-level="1.5" data-path="index.html"><a href="#before-you-leave"><i class="fa fa-check"></i><b>1.5</b> Before you leave</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="#formative-quiz"><i class="fa fa-check"></i><b>1.5</b> Formative quiz</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="#before-you-leave"><i class="fa fa-check"></i><b>1.6</b> Before you leave</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -113,14 +114,14 @@
 <div id="header">
 <h1 class="title">BIO-6013A Bioinformatics Skills</h1>
 <p class="author"><em>Ellen Bell</em></p>
-<p class="date"><em>2022-10-27</em></p>
+<p class="date"><em>2022-11-07</em></p>
 </div>
 <div id="bioinformatics-skills" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Bioinformatics skills<a href="#bioinformatics-skills" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Here we will start to build a bioinformatics skill set, using the command line.</p>
 <div id="getting-started" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Getting started<a href="#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account <a href="https://rstudio.cloud/">here</a> and join the workspace <code>BIO 6013A</code> <a href="link%20to%20workspace">here</a>. Once you have signed up you will see that you ahve two spaces;</p>
+<p>These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account <a href="https://rstudio.cloud/">here</a> and join the workspace <code>BIO 6013A</code> <a href="https://rstudio.cloud/spaces/299793/join?access_code=LOpV0oLUk_feSeJSBUUJLOq-qZs7D-gnI2e-3fY3">here</a>. Once you have signed up you will see that you have two spaces;</p>
 <ul>
 <li>Your Workspace</li>
 <li>BIO 6013A</li>
@@ -153,21 +154,21 @@ Figure 1.1: Your blast workshop project in RStudio Cloud
 <ul>
 <li>data</li>
 <li>plots</li>
-<li>scripts</li>
+<li>project_setup</li>
 </ul>
 <p>You can move around folders/directories in the command line, and its good be be comfortable doing this. Make sure you are in the <code>Terminal</code> tab in the panel to the bottom left and type;</p>
 <pre><code>ls</code></pre>
 <p>Hit <strong>Enter</strong></p>
 <p>The <code>ls</code> command is shorthand for list. The terminal should return something that looks like this;</p>
 <pre><code>/cloud/project$ ls
-data  plots  project.Rproj  scripts</code></pre>
+data  plots  project.Rproj  project_setup</code></pre>
 <p>So you can see your three directories. You can move between directories within the Terminal by using the <code>cd</code> command (<code>cd</code> is shorthand for change directory). Lets go and have a look at the files held within <code>data</code>. Use for following command;</p>
 <pre><code>cd data/</code></pre>
 <p>now use;</p>
 <pre><code>ls</code></pre>
 <p>The terminal should return something that looks like this;</p>
 <pre><code>/cloud/project/data$ ls
-databases  refseq  unknown_cory.fasta</code></pre>
+blast  databases  query  refseq</code></pre>
 <p>So you can see that you can use commands like <code>ls</code> and <code>cd</code> to move around your directories. Note - if you want to move back up a directory level you can use the <code>cd ..</code> to do so. Use <code>cd, ls and cd ..</code> to explore the directories available to you in your project.</p>
 </div>
 <div id="paths" class="section level3 hasAnchor" number="1.2.2">
@@ -175,11 +176,11 @@ databases  refseq  unknown_cory.fasta</code></pre>
 <p>So hopefully you are getting comfortable moving between directories in the terminal. Here I will briefly introduce you to paths. Type in the following so that everyone is in the same location;</p>
 <pre><code>cd /cloud/project</code></pre>
 <p>If you want to enter some commands from this location that use the <code>mouse.1.protein.faa</code> file stored in the <code>refseq</code> directory you will need to provide a path for the location that file. These paths can either be absolute or relative.</p>
-<p>Relative paths provide a pathway from your current directory (in this case <code>/cloud/project</code>) so here this might be;</p>
-<pre><code>data/refseq/mouse.1.protein.faa</code></pre>
+<p>Relative paths provide a pathway from your current directory (in this case <code>/cloud/project</code>). So to get to the directory where your <code>mouse.1.protein.faa</code> file is you could use the following path;</p>
+<pre><code>data/refseq</code></pre>
 <p>However if you are already in the <code>databases</code> directory, this path wont work because your computer will be looking for directories it cant see. This is where absolute paths come in useful.</p>
 <p>Absolute paths specify the location of a file or directory in relation to your root directory <code>/</code> (the top most directory in a hierarchy). So it doesn’t matter which directory you are currently in, the pathway will work. In this case the absolute path would be;</p>
-<pre><code>/cloud/project/data/refseq/mouse.1.protein.faa</code></pre>
+<pre><code>/cloud/project/data/refseq</code></pre>
 <p>Have a go at using both absolute and relative paths with the <code>cd</code> command to move around your directories.</p>
 </div>
 </div>
@@ -233,12 +234,12 @@ mouse.1.protein.faa  mouse.1.rna.fna  zebrafish.1.protein.faa  zebrafish.1.rna.f
 <pre><code>makeblastdb -in /cloud/project/data/refseq/zebrafish.1.rna.fna -dbtype nucl -out /cloud/project/data/databases/zebrafish.1.rna</code></pre>
 <p>Take a moment to break down this command. You are essentially calling a function <code>makeblastdb</code>, you have told it which files you want to input using <code>-in pathway/file</code> and told it where this file is located via the path. You have also given instructions on what type of database you wish to produce (i.e. a nucleotide database) using <code>-dbtype nucl</code> and given instructions on where you want this database to be stored using <code>-out pathway/file_prefix</code>.</p>
 <p>Use the <code>cd</code> and <code>ls</code> commands to go to <code>/cloud/project/data/databases/</code>. Have a look at the new files stored there. There should be three and they should have <code>.nhr</code>, <code>.nin</code>, <code>.nsq</code> file extensions.</p>
-<p>Now try and make a similar data base for the <code>zebrafish.1.protein.faa</code> refseq file. You will need to instruct <code>makeblastdb</code> to make a <code>prot</code> (protein) database instead of a <code>nucl</code> database. Check your results in <code>/cloud/project/data/databases/</code>. Once again there should be thre files and they should have <code>.phr</code>, <code>.pin</code> and <code>.psq</code> file extensions.</p>
+<p>Now try and make a similar data base for the <code>zebrafish.1.protein.faa</code> refseq file. You will need to instruct <code>makeblastdb</code> to make a <code>prot</code> (protein) database instead of a <code>nucl</code> database. Check your results in <code>/cloud/project/data/databases/</code>. Once again there should be three files and they should have <code>.phr</code>, <code>.pin</code> and <code>.psq</code> file extensions.</p>
 </div>
 <div id="finding-a-query" class="section level3 hasAnchor" number="1.4.2">
 <h3><span class="header-section-number">1.4.2</span> Finding a query<a href="#finding-a-query" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>So hopefully you have a protein and nucleotide database prepared. Now we need to find a suitable query. We could use an entire mouse refseq file. But that would take a long time. Lets take a single entry from the mouse protein refseq file instead. To do this in the command line we can use <code>awk</code>, this is a scripting language used for the manipulation of data. In bioinformatics it is frequently used for filtering sequence files. For now, I would like you to use the <code>awk</code> command below, this will copy lines 5 and 6 of the <code>mouse.1.protein.faa</code> file and paste them in a new file called <code>mouse.1.protein.1.faa</code> in the <code>query</code> directory.</p>
-<pre><code>awk &#39;NR==5 , NR==6&#39;  mouse.1.protein.faa &gt; /cloud/project/data/query/mouse.1.protein.1.faa</code></pre>
+<pre><code>awk &#39;NR==5 , NR==6&#39;  /cloud/project/data/refseq/mouse.1.protein.faa &gt; /cloud/project/data/query/mouse.1.protein.1.faa</code></pre>
 <p>Use <code>head</code> to look at the contents of the <code>mouse.1.protein.1.faa</code> file in the <code>query</code> directory. Hopefully it should look something like this;</p>
 <pre><code>&gt;YP_220552.1 cytochrome c oxidase subunit I (mitochondrion) [Mus musculus domesticus]
 MFINRWLFSTNHKDIGTLYLLFGAWAGMVGTALSILIRAELGQPGALLGDDQIYNVIVTAHAFVMIFFMVMPMMIGGFGNWLVPLMIGAPDMAFPRMNNMSFWLLPPSFLLLLASSMVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGVSSILGAINFITTIINMKPPAMTQYQTPLFVWSVLITAVLLLLSLPVLAAGITMLLTDRNLNTTFFDPAGGGDPILYQHLFWFFGHPEVYILILPGFGIISHVVTYYSGKKEPFGYMGMVWAMMSIGFLGFIVWAHHMFTVGLDVDTRAYFTSATMIIAIPTGVKVFSWLATLHGGNIKWSPAMLWALGFIFLFTVGGLTGIVLSNSSLDIVLHDTYYVVAHFHYVLSMGAVFAIMAGFVHWFPLFSGFTLDDTWAKAHFAIMFVGVNMTFFPQHFLGLSGMPRRYSDYPDAYTTWNTVSSMGSFISLTAVLIMIFMIWEAFASKREVMSVSYASTNLEWLHGCPPPYHTFEEPTYVKVK</code></pre>
@@ -266,13 +267,17 @@ YP_220552.1 NP_001373511.1  31.818  66  32  2   427 482 48  110 7.5 29.6</code><
 </div>
 <div id="blastn-and-blastx" class="section level3 hasAnchor" number="1.4.4">
 <h3><span class="header-section-number">1.4.4</span> BLASTn and BLASTx<a href="#blastn-and-blastx" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Try repeating the process with a new query. Use <code>awk</code> to extract lines 15 and 16 from the mouse nucleotide refseq files. Then use<code>blastn</code> to BLAST your new query against the zebrafish nucleotide database and create a new output file in output format 6 and use <code>grep</code> to extract the top hit from the zebrafish rna refseq file.</p>
+<p>Try repeating the process with a new query. Use <code>awk</code> to extract lines 4121 and 4122 from the mouse nucleotide refseq files. Then use<code>blastn</code> to BLAST your new query against the zebrafish nucleotide database and create a new output file in output format 6 and use <code>grep</code> to extract the top hit from the zebrafish rna refseq file.</p>
 <p>Now you are confident with BLASTp and BLASTn we can start to have a look at BLASTx. Blastx is a great way to increase the power of your search, especially if you have an unknown sequence and are trying to work out which gene family it may belong to or if you are trying to identify protein coding genes. It takes a nucleotide query and translates the sequence using all six possible reading frames (so for all three possible codons and for both forward and reverse complement) and blasts the results against a protein database.</p>
 <p>You have been given an unknown nucleotide sequence from a Corydoras catfish species, <code>/cloud/project/data/query/unknown_cory.fasta</code>. Use the <code>blastx</code> and <code>grep</code> commands to try to work out what gene it most closely matches in zebrafish.</p>
 </div>
 </div>
-<div id="before-you-leave" class="section level2 hasAnchor" number="1.5">
-<h2><span class="header-section-number">1.5</span> Before you leave<a href="#before-you-leave" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="formative-quiz" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Formative quiz<a href="#formative-quiz" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Use the workbook and outputs from the workshop to complete a quick online formative quiz. Go to the Genomes, Genes and Genomics blackboard page, Workshops and Practicals, Bioinformatics workshops to find the quiz.</p>
+</div>
+<div id="before-you-leave" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> Before you leave<a href="#before-you-leave" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Today we have been building the beginnings of a bioinformatics toolkit. We have taken a look at .fastq and .fasta files and have started developing tips and tricks for working in the command line and using commonly used commands, packages and languages, including;</p>
 <ul>
 <li>Bash</li>

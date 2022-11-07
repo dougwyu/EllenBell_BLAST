@@ -10,4 +10,5 @@ making-a-blast-database
 finding-a-query
 blastp
 blastn-and-blastx
+formative-quiz
 before-you-leave

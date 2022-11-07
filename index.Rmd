@@ -21,7 +21,7 @@ Here we will start to build a bioinformatics skill set, using the command line.
 
 ## Getting started 
 
-These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account [here](https://rstudio.cloud/) and join the workspace `BIO 6013A` [here](link to workspace). Once you have signed up you will see that you have two spaces;
+These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account [here](https://rstudio.cloud/) and join the workspace `BIO 6013A` [here](https://rstudio.cloud/spaces/299793/join?access_code=LOpV0oLUk_feSeJSBUUJLOq-qZs7D-gnI2e-3fY3). Once you have signed up you will see that you have two spaces;
 
 * Your Workspace
 * BIO 6013A
@@ -261,6 +261,10 @@ Now you are confident with BLASTp and BLASTn we can start to have a look at BLAS
 
 You have been given an unknown nucleotide sequence from a Corydoras catfish species, `/cloud/project/data/query/unknown_cory.fasta`. Use the `blastx` and `grep` commands to try to work out what gene it most closely matches in zebrafish.
 
+## Formative quiz
+
+Use the workbook and outputs from the workshop to complete a quick online formative quiz. Go to the Genomes, Genes and Genomics blackboard page, Workshops and Practicals, Bioinformatics workshops to find the quiz.
+
 ## Before you leave
 
 Today we have been building the beginnings of a bioinformatics toolkit. We have taken a look at .fastq and .fasta files and have started developing tips and tricks for working in the command line and using commonly used commands, packages and languages, including;
@@ -271,6 +275,7 @@ Today we have been building the beginnings of a bioinformatics toolkit. We have 
 * Blast
 
 To continue developing these skills there are some really awesome resources available with Astro Bio Mike at [Happy Belly Bioinformatics](https://astrobiomike.github.io/)
+
 
 One last thing, please to logout of RStudio Cloud before you leave. 
 
