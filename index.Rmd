@@ -21,7 +21,7 @@ Here we will start to build a bioinformatics skill set, using the command line.
 
 ## Getting started 
 
-These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account [here](https://rstudio.cloud/) and join the workspace `BIO 6013A` [here](link to workspace). Once you have signed up you will see that you ahve two spaces;
+These bioinformatics workshops will be run through RStudio Cloud, you will need to make a free account [here](https://rstudio.cloud/) and join the workspace `BIO 6013A` [here](link to workspace). Once you have signed up you will see that you have two spaces;
 
 * Your Workspace
 * BIO 6013A
@@ -57,7 +57,7 @@ Look in the 'files' tab in the panel to the bottom right. You should have three 
 
 * data
 * plots
-* scripts
+* project_setup
 
 You can move around folders/directories in the command line, and its good be be comfortable doing this. Make sure you are in the `Terminal` tab in the panel to the bottom left and type; 
 
@@ -71,7 +71,7 @@ The `ls` command is shorthand for list. The terminal should return something tha
 
 ```
 /cloud/project$ ls
-data  plots  project.Rproj  scripts
+data  plots  project.Rproj  project_setup
 ```
 
 So you can see your three directories. You can move between directories within the Terminal by using the `cd` command (`cd` is shorthand for change directory). Lets go and have a look at the files held within `data`. Use for following command;
@@ -90,7 +90,7 @@ The terminal should return something that looks like this;
 
 ```
 /cloud/project/data$ ls
-databases  refseq  unknown_cory.fasta
+blast  databases  query  refseq
 ```
 
 So you can see that you can use commands like `ls` and `cd` to move around your directories. Note - if you want to move back up a directory level you can use the `cd ..` to do so. Use `cd, ls and cd ..` to explore the directories available to you in your project. 
@@ -105,10 +105,10 @@ cd /cloud/project
 
 If you want to enter some commands from this location that use the `mouse.1.protein.faa` file stored in the `refseq` directory you will need to provide a path for the location that file. These paths can either be absolute or relative. 
 
-Relative paths provide a pathway from your current directory (in this case `/cloud/project`) so here this might be;
+Relative paths provide a pathway from your current directory (in this case `/cloud/project`). So to get to the directory where your `mouse.1.protein.faa` file is you could use the following path; 
 
 ```
-data/refseq/mouse.1.protein.faa
+data/refseq
 ```
 
 However if you are already in the `databases` directory, this path wont work because your computer will be looking for directories it cant see. This is where absolute paths come in useful. 
@@ -116,7 +116,7 @@ However if you are already in the `databases` directory, this path wont work bec
 Absolute paths specify the location of a file or directory in relation to your root directory `/` (the top most directory in a hierarchy). So it doesn't matter which directory you are currently in, the pathway will work. In this case the absolute path would be;
 
 ```
-/cloud/project/data/refseq/mouse.1.protein.faa
+/cloud/project/data/refseq
 ```
 
 Have a go at using both absolute and relative paths with the `cd` command to move around your directories. 
@@ -198,14 +198,14 @@ Take a moment to break down this command. You are essentially calling a function
 
 Use the `cd` and `ls` commands to go to `/cloud/project/data/databases/`. Have a look at the new files stored there. There should be three and they should have `.nhr`, `.nin`, `.nsq` file extensions. 
 
-Now try and make a similar data base for the `zebrafish.1.protein.faa` refseq file. You will need to instruct `makeblastdb` to make a `prot` (protein) database instead of a `nucl` database. Check your results in `/cloud/project/data/databases/`. Once again there should be thre files and they should have `.phr`, `.pin` and `.psq` file extensions. 
+Now try and make a similar data base for the `zebrafish.1.protein.faa` refseq file. You will need to instruct `makeblastdb` to make a `prot` (protein) database instead of a `nucl` database. Check your results in `/cloud/project/data/databases/`. Once again there should be three files and they should have `.phr`, `.pin` and `.psq` file extensions. 
 
 ### Finding a query
 
 So hopefully you have a protein and nucleotide database prepared. Now we need to find a suitable query. We could use an entire mouse refseq file. But that would take a long time. Lets take a single entry from the mouse protein refseq file instead. To do this in the command line we can use `awk`, this is a scripting language used for the manipulation of data. In bioinformatics it is frequently used for filtering sequence files. For now, I would like you to use the `awk` command below, this will copy lines 5 and 6 of the `mouse.1.protein.faa` file and paste them in a new file called `mouse.1.protein.1.faa` in the `query` directory. 
 
 ```
-awk 'NR==5 , NR==6'  mouse.1.protein.faa > /cloud/project/data/query/mouse.1.protein.1.faa
+awk 'NR==5 , NR==6'  /cloud/project/data/refseq/mouse.1.protein.faa > /cloud/project/data/query/mouse.1.protein.1.faa
 ```
 
 Use `head` to look at the contents of the `mouse.1.protein.1.faa` file in the `query` directory. Hopefully it should look something like this;
@@ -255,7 +255,7 @@ Navigate to this newly made text file and use either `less` or `head` to view it
 
 ### BLASTn and BLASTx
 
-Try repeating the process with a new query. Use `awk` to extract lines 15 and 16 from the mouse nucleotide refseq files. Then use`blastn` to BLAST your new query against the zebrafish nucleotide database and create a new output file in output format 6 and use `grep` to extract the top hit from the zebrafish rna refseq file.
+Try repeating the process with a new query. Use `awk` to extract lines 4121 and 4122 from the mouse nucleotide refseq files. Then use`blastn` to BLAST your new query against the zebrafish nucleotide database and create a new output file in output format 6 and use `grep` to extract the top hit from the zebrafish rna refseq file.
 
 Now you are confident with BLASTp and BLASTn we can start to have a look at BLASTx. Blastx is a great way to increase the power of your search, especially if you have an unknown sequence and are trying to work out which gene family it may belong to or if you are trying to identify protein coding genes. It takes a nucleotide query and translates the sequence using all six possible reading frames (so for all three possible codons and for both forward and reverse complement) and blasts the results against a protein database.
 
