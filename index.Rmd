@@ -1,15 +1,19 @@
 --- 
 title: "BIO-6013A BLAST"
-author: "Ellen Bell"
+author: "Ellen Bell, Douglas Yu"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: rstudio/bookdown-demo
+output_dir: "_book"
+description: "This is an introduction to BLAST"
 always_allow_html: true
 ---
+
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(eval = FALSE)
